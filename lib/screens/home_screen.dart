@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
+import '../widgets/input_section.dart';
+import '../widgets/summary_section.dart';
+import '../controllers/calculator_controller.dart';
+import '../core/app_constants.dart';
+
+class BilliardCostScreen extends StatefulWidget {
+  const BilliardCostScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _BilliardCostScreenState createState() => _BilliardCostScreenState();
+}
+
+class _BilliardCostScreenState extends State<BilliardCostScreen> {
+  final TextEditingController _priceController =
+      TextEditingController(text: AppConstants.defaultPricePerHour);
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
+
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+  CalculatorResult? result;
+
+  Future<void> _selectTime(BuildContext context, bool isStartTime) async {
+    TimeOfDay initialTime = isStartTime
+        ? (startTime ?? TimeOfDay.now())
+        : (endTime ?? TimeOfDay.now());
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        if (isStartTime) {
+          startTime = pickedTime;
+          _startTimeController.text = pickedTime.format(context);
+        } else {
+          endTime = pickedTime;
+          _endTimeController.text = pickedTime.format(context);
+        }
+        _updateCost();
+      });
+    }
+  }
+
+  void _setEndTimeToNow() {
+    setState(() {
+      endTime = TimeOfDay.now();
+      _endTimeController.text = endTime!.format(context);
+      _updateCost();
+    });
+  }
+
+  void _resetFields() {
+    setState(() {
+      _priceController.text = AppConstants.defaultPricePerHour;
+      _startTimeController.clear();
+      _endTimeController.clear();
+      startTime = null;
+      endTime = null;
+      result = null;
+    });
+  }
+
+  void _updateCost() {
+    setState(() {
+      result = CalculatorController.calculate(
+        startTime: startTime,
+        endTime: endTime,
+        priceText: _priceController.text,
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          AppConstants.appTitle,
+          style: TextStyle(
+            fontFamily: AppConstants.titleFontFamily,
+            fontFamilyFallback: AppConstants.titleFontFamilyFallback,
+            fontWeight: FontWeight.w700,
+            fontSize: AppConstants.titleFontSize,
+            letterSpacing: AppConstants.titleLetterSpacing,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: "Resetear campos",
+            onPressed: _resetFields,
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: Colors.grey.shade300,
+            height: 1.0,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.blanco,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InputSection(
+                priceController: _priceController,
+                startTimeController: _startTimeController,
+                endTimeController: _endTimeController,
+                onPriceChanged: (value) => _updateCost(),
+                onSelectStartTime: () => _selectTime(context, true),
+                onSelectEndTime: () => _selectTime(context, false),
+                onSetEndTimeToNow: _setEndTimeToNow,
+              ),
+              if (result != null) ...[
+                Divider(height: 1, color: Colors.grey.shade300),
+                SummarySection(
+                  totalDurationStr: result!.durationStr,
+                  totalCost: result!.cost,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
