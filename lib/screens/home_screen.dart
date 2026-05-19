@@ -32,6 +32,8 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
       initialTime: initialTime,
     );
 
+    if (!mounted) return;
+
     if (pickedTime != null) {
       setState(() {
         if (isStartTime) {
@@ -66,13 +68,19 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
   }
 
   void _updateCost() {
-    setState(() {
-      result = CalculatorController.calculate(
-        startTime: startTime,
-        endTime: endTime,
-        priceText: _priceController.text,
-      );
-    });
+    result = CalculatorController.calculate(
+      startTime: startTime,
+      endTime: endTime,
+      priceText: _priceController.text,
+    );
+  }
+
+  @override
+  void dispose() {
+    _priceController.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -120,7 +128,9 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
                 priceController: _priceController,
                 startTimeController: _startTimeController,
                 endTimeController: _endTimeController,
-                onPriceChanged: (value) => _updateCost(),
+                onPriceChanged: (value) {
+                  setState(_updateCost);
+                },
                 onSelectStartTime: () => _selectTime(context, true),
                 onSelectEndTime: () => _selectTime(context, false),
                 onSetEndTimeToNow: _setEndTimeToNow,

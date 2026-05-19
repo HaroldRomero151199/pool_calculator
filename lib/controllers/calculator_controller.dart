@@ -13,11 +13,15 @@ class CalculatorController {
     required TimeOfDay? endTime,
     required String priceText,
   }) {
-    if (startTime == null || endTime == null || priceText.isEmpty) {
+    final normalizedPriceText = priceText.trim();
+    if (startTime == null || endTime == null || normalizedPriceText.isEmpty) {
       return null;
     }
 
-    double pricePerHour = double.tryParse(priceText) ?? 0.0;
+    final pricePerHour = double.tryParse(normalizedPriceText);
+    if (pricePerHour == null) {
+      return null;
+    }
 
     DateTime now = DateTime.now();
     DateTime startDateTime = DateTime(
