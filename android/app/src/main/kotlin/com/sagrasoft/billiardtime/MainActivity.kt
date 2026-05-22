@@ -1,4 +1,4 @@
-package com.example.la_central_del_norte
+package com.sagrasoft.billiardtime
 
 import io.flutter.embedding.android.FlutterActivity
 
