@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/app_constants.dart';
 
 class InputSection extends StatelessWidget {
   final TextEditingController priceController;
@@ -31,7 +32,7 @@ class InputSection extends StatelessWidget {
             keyboardType: TextInputType.number,
             onChanged: onPriceChanged,
             decoration: const InputDecoration(
-              labelText: "Precio por hora (Bs)",
+              labelText: AppConstants.priceLabel,
               border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.attach_money),
             ),
@@ -41,7 +42,7 @@ class InputSection extends StatelessWidget {
             controller: startTimeController,
             readOnly: true,
             decoration: const InputDecoration(
-              labelText: "Hora de inicio",
+              labelText: AppConstants.startTimeLabel,
               border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.access_time),
             ),
@@ -52,12 +53,12 @@ class InputSection extends StatelessWidget {
             controller: endTimeController,
             readOnly: true,
             decoration: InputDecoration(
-              labelText: "Hora final",
+              labelText: AppConstants.endTimeLabel,
               border: const OutlineInputBorder(),
               prefixIcon: const Icon(Icons.access_time),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.update),
-                tooltip: "Poner hora actual",
+                tooltip: AppConstants.setEndTimeTooltip,
                 onPressed: onSetEndTimeToNow,
               ),
             ),

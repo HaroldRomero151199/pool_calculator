@@ -6,7 +6,14 @@ import '../controllers/calculator_controller.dart';
 import '../core/app_constants.dart';
 
 class BilliardCostScreen extends StatefulWidget {
-  const BilliardCostScreen({super.key});
+  final bool isDarkMode;
+  final ValueChanged<bool> onThemeModeChanged;
+
+  const BilliardCostScreen({
+    super.key,
+    required this.isDarkMode,
+    required this.onThemeModeChanged,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -85,7 +92,52 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDarkTheme = theme.brightness == Brightness.dark;
+    final borderColor = isDarkTheme
+        ? colorScheme.outline.withValues(alpha: 0.5)
+        : Colors.grey.shade300;
+
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: isDarkTheme
+                    ? AppColors.darkCard
+                    : colorScheme.primary.withValues(alpha: 0.08),
+              ),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  AppConstants.appTitle,
+                  style: TextStyle(
+                    color:
+                        isDarkTheme ? AppColors.darkText : colorScheme.primary,
+                    fontFamily: AppConstants.titleFontFamily,
+                    fontFamilyFallback: AppConstants.titleFontFamilyFallback,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: AppConstants.titleLetterSpacing,
+                  ),
+                ),
+              ),
+            ),
+            SwitchListTile(
+              key: const Key('darkModeSwitch'),
+              secondary: Icon(
+                widget.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+              ),
+              title: const Text(AppConstants.darkModeLabel),
+              value: widget.isDarkMode,
+              onChanged: widget.onThemeModeChanged,
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: const Text(
           AppConstants.appTitle,
@@ -100,14 +152,14 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            tooltip: "Resetear campos",
+            tooltip: AppConstants.resetTooltip,
             onPressed: _resetFields,
           ),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Container(
-            color: Colors.grey.shade300,
+            color: borderColor,
             height: 1.0,
           ),
         ),
@@ -116,9 +168,9 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.blanco,
+            color: isDarkTheme ? AppColors.darkSurface : AppColors.whiteSurface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey.shade300),
+            border: Border.all(color: borderColor),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -136,7 +188,7 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
                 onSetEndTimeToNow: _setEndTimeToNow,
               ),
               if (result != null) ...[
-                Divider(height: 1, color: Colors.grey.shade300),
+                Divider(height: 1, color: borderColor),
                 SummarySection(
                   totalDurationStr: result!.durationStr,
                   totalCost: result!.cost,

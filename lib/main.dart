@@ -1,49 +1,62 @@
 import 'package:flutter/material.dart';
-import 'theme/app_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'screens/home_screen.dart';
+import 'theme/app_themes.dart';
 
 void main() {
   runApp(const BilliardCostApp());
 }
 
-class BilliardCostApp extends StatelessWidget {
+class BilliardCostApp extends StatefulWidget {
   const BilliardCostApp({super.key});
+
+  @override
+  State<BilliardCostApp> createState() => _BilliardCostAppState();
+}
+
+class _BilliardCostAppState extends State<BilliardCostApp> {
+  static const String _darkModePreferenceKey = 'isDarkMode';
+
+  bool _isDarkMode = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadThemePreference();
+  }
+
+  Future<void> _loadThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedDarkMode = prefs.getBool(_darkModePreferenceKey);
+
+    if (!mounted) return;
+
+    setState(() {
+      _isDarkMode = savedDarkMode ?? true;
+    });
+  }
+
+  Future<void> _setDarkMode(bool value) async {
+    setState(() {
+      _isDarkMode = value;
+    });
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_darkModePreferenceKey, value);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: AppColors.blanco,
-        primaryColor: AppColors.azulTorneo,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.blanco,
-          elevation: 0,
-          centerTitle: true,
-          iconTheme: IconThemeData(color: AppColors.azulTorneo),
-          titleTextStyle: TextStyle(
-            color: AppColors.azulTorneo,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        iconTheme: const IconThemeData(
-          color: AppColors.azulTorneo,
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
-          prefixIconColor: AppColors.azulTorneo,
-          suffixIconColor: AppColors.azulTorneo,
-          labelStyle: TextStyle(color: AppColors.verdeCarruaje),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.azulTorneo, width: 2),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.maderaCaoba, width: 1),
-          ),
-        ),
+      theme: AppThemes.whiteTheme,
+      darkTheme: AppThemes.darkTheme,
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: BilliardCostScreen(
+        isDarkMode: _isDarkMode,
+        onThemeModeChanged: _setDarkMode,
       ),
-      home: const BilliardCostScreen(),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:la_central_del_norte/controllers/calculator_controller.dart';
+import 'package:billiard_time/controllers/calculator_controller.dart';
 
 void main() {
   group('CalculatorController.calculate', () {
