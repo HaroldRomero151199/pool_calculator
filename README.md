@@ -1,32 +1,32 @@
-# 🎱 Billiard Time / Calculadora de Billar
+# 🎱 Billiard Time / Billiard Calculator
 
 <p align="center">
   <img src="assets/app_icon.png" alt="Billiard Time Icon" width="120" style="border-radius: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);" />
 </p>
 
 <p align="center">
-  <strong>Una aplicación móvil premium y minimalista para calcular con precisión el costo de uso de mesas de billar por tiempo transcurrido.</strong>
+  <strong>A premium, minimalist mobile app to accurately calculate the cost of using billiard tables over elapsed time.</strong>
 </p>
 
 ---
 
-## 🌟 Descripción General
+## 🌟 Overview
 
-**Billiard Time** es la solución ideal para salas de billar, clubes deportivos o entusiastas del juego. Permite a los usuarios calcular de forma rápida y precisa el costo de alquiler de una mesa basado en una tarifa por hora personalizable y tiempos de inicio/finalización flexibles, todo a través de una interfaz interactiva y moderna.
-
----
-
-## ✨ Características Principales
-
-*   💲 **Tarifas Personalizables:** Configura libremente el precio por hora en Bolivianos (Bs.) u otra moneda de forma dinámica.
-*   ⏱️ **Gestión de Tiempo Flexible:**
-    *   Selecciona las horas de inicio y fin de forma sencilla mediante un selector visual integrado.
-    *   **Establecer hora actual:** Botón de un solo toque para definir la hora actual del sistema como el tiempo final del juego.
-*   🌙 **Soporte de Tránsito de Medianoche:** Detecta automáticamente si la sesión de juego pasa de la medianoche al día siguiente, calculando la duración real de manera correcta sin errores de signo.
-*   📋 **Resumen de Cobro Detallado:** Muestra claramente la duración exacta en horas y minutos junto al costo final exacto proporcional al tiempo consumido.
-*   🔄 **Limpieza Rápida:** Botón de reinicio integrado para limpiar los campos al instante y comenzar una nueva sesión de juego rápidamente.
+**Billiard Time** is the ideal solution for billiard halls, sports clubs, or game enthusiasts. It lets users quickly and accurately compute the rental cost of a table based on a customizable hourly rate and flexible start/end times, all through an interactive modern interface.
 
 ---
 
-### 🌙 Inteligencia al Cambiar de Día
-Si juegas cruzando la medianoche (por ejemplo, comenzando a las `23:00` y terminando a las `01:30` del día siguiente), la aplicación detecta de forma inteligente que la hora final es menor que la de inicio y añade automáticamente la diferencia correspondiente al nuevo día. Así, obtendrás el cálculo correcto de **2 horas y 30 minutos** sin necesidad de realizar ajustes manuales.
+## ✨ Main Features
+
+*   💲 **Customizable Rates:** Freely set the price per hour in Bolivianos (Bs.) or any other currency.
+*   ⏱️ **Flexible Time Management:**
+    *   Select start and end times easily using an integrated visual picker.
+    *   **Set to current time:** One‑tap button to set the system’s current time as the end time.
+*   🌙 **Midnight Transition Support:** Automatically detects when a session spans midnight and correctly calculates the actual duration.
+*   📋 **Detailed Billing Summary:** Clearly shows the exact duration in hours and minutes along with the proportional total cost.
+*   🔄 **Quick Reset:** Integrated reset button clears fields instantly for a new session.
+
+---
+
+### 🌙 Midnight‑Crossing Intelligence
+If you play across midnight (e.g., start at `23:00` and finish at `01:30` the next day), the app intelligently detects the end time is earlier than the start time and automatically adds the appropriate day offset, giving you the correct calculation of **2 hours and 30 minutes** without manual adjustments.

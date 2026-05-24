@@ -1,25 +1,93 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:la_central_del_norte/core/app_constants.dart';
-import 'package:la_central_del_norte/main.dart';
-import 'package:la_central_del_norte/widgets/input_section.dart';
+import 'package:billiard_time/core/app_constants.dart';
+import 'package:billiard_time/main.dart';
+import 'package:billiard_time/widgets/input_section.dart';
+
+const String _testVersionLabel = 'Versión 9.8.7';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
   testWidgets('BilliardCostApp smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const BilliardCostApp());
+    await tester.pumpWidget(
+      const BilliardCostApp(
+        initialIsDarkMode: true,
+        appVersionLabel: _testVersionLabel,
+      ),
+    );
+    await tester.pumpAndSettle();
 
-    // Verify that the app title is displayed.
     expect(find.text(AppConstants.appTitle), findsOneWidget);
-
-    // Verify that the InputSection widget exists.
     expect(find.byType(InputSection), findsOneWidget);
+  });
+
+  testWidgets('starts in dark mode when no preference is saved',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const BilliardCostApp(
+        initialIsDarkMode: true,
+        appVersionLabel: _testVersionLabel,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+    expect(materialApp.themeMode, ThemeMode.dark);
+  });
+
+  testWidgets('can start in white mode before first frame',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const BilliardCostApp(
+        initialIsDarkMode: false,
+        appVersionLabel: _testVersionLabel,
+      ),
+    );
+
+    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+    expect(materialApp.themeMode, ThemeMode.light);
+  });
+
+  testWidgets('drawer switch changes from dark to white mode',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const BilliardCostApp(
+        initialIsDarkMode: true,
+        appVersionLabel: _testVersionLabel,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pumpAndSettle();
+
+    expect(find.text(AppConstants.darkModeLabel), findsOneWidget);
+    expect(find.text(_testVersionLabel), findsOneWidget);
+    expect(find.byKey(const Key('darkModeSwitch')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('darkModeSwitch')));
+    await tester.pumpAndSettle();
+
+    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    final prefs = await SharedPreferences.getInstance();
+
+    expect(materialApp.themeMode, ThemeMode.light);
+    expect(prefs.getBool('isDarkMode'), isFalse);
+  });
+
+  test('formats version label without build number', () {
+    expect(
+      AppConstants.formatVersionLabel(version: '1.2.3'),
+      'Versión 1.2.3',
+    );
   });
 }

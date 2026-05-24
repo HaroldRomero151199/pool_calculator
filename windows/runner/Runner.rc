@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "la_central_del_norte" "\0"
+            VALUE "FileDescription", "Billiard Time" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "la_central_del_norte" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "la_central_del_norte.exe" "\0"
-            VALUE "ProductName", "la_central_del_norte" "\0"
+            VALUE "InternalName", "billiard_time" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.sagrasoft. All rights reserved." "\0"
+            VALUE "OriginalFilename", "billiard_time.exe" "\0"
+            VALUE "ProductName", "Billiard Time" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

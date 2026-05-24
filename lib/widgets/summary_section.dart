@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../core/app_constants.dart';
 
 class SummarySection extends StatelessWidget {
   final String totalDurationStr;
@@ -13,10 +14,22 @@ class SummarySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDarkTheme = theme.brightness == Brightness.dark;
+    final summaryBackground = isDarkTheme
+        ? AppColors.darkCard.withValues(alpha: 0.72)
+        : AppColors.whiteCard;
+    final totalBackground = isDarkTheme
+        ? AppColors.darkStrong
+        : AppColors.whiteStrong.withValues(alpha: 0.14);
+    final totalTextColor =
+        isDarkTheme ? AppColors.darkText : colorScheme.secondary;
+
     return Container(
       padding: const EdgeInsets.all(24.0),
       decoration: BoxDecoration(
-        color: AppColors.azulTorneo.withOpacity(0.05),
+        color: summaryBackground,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(16),
           bottomRight: Radius.circular(16),
@@ -24,37 +37,37 @@ class SummarySection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text(
-            "Resumen de Cobro",
+          Text(
+            AppConstants.summaryTitle,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.maderaCaoba,
+              color: isDarkTheme ? AppColors.darkText : colorScheme.tertiary,
             ),
           ),
           const SizedBox(height: 12),
           Text(
             totalDurationStr,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: AppColors.azulTorneo,
+              color: isDarkTheme ? AppColors.darkAccent : colorScheme.primary,
             ),
           ),
           const SizedBox(height: 16),
           Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 24.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
             decoration: BoxDecoration(
-              color: AppColors.verdeTradicional.withOpacity(0.2),
+              color: totalBackground,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              "${totalCost.toStringAsFixed(2)} Bs.",
-              style: const TextStyle(
+              "${totalCost.toStringAsFixed(2)} ${AppConstants.currencySuffix}",
+              style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
-                color: AppColors.verdeTradicional,
+                color: totalTextColor,
               ),
             ),
           ),

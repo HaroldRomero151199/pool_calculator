@@ -1,11 +1,11 @@
 {
-    "name": "la_central_del_norte",
-    "short_name": "la_central_del_norte",
+    "name": "Billiard Time",
+    "short_name": "Billiard Time",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Billiard Time / Billiard Calculator",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/app_constants.dart';
 
 class CalculatorResult {
   final double cost;
@@ -40,9 +41,9 @@ class CalculatorController {
     int hrs = difference.inHours;
     int mins = difference.inMinutes.remainder(60);
     String durationStr = "";
-    if (hrs > 0) durationStr += "$hrs Horas ";
-    if (mins > 0) durationStr += "$mins min";
-    if (hrs == 0 && mins == 0) durationStr = "0 min";
+    if (hrs > 0) durationStr += "$hrs${AppConstants.hoursSuffix}";
+    if (mins > 0) durationStr += "$mins${AppConstants.minutesSuffix}";
+    if (hrs == 0 && mins == 0) durationStr = AppConstants.zeroMinutes;
 
     return CalculatorResult(cost: cost, durationStr: durationStr.trim());
   }
