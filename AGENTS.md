@@ -8,7 +8,7 @@ This is a Flutter mobile app for calculating billiard table rental cost based on
 
 The app is presented in the README as **Billiard Time / Billiard Calculator**, and the visible title in the app is currently `CALCULADORA BILLAR`.
 
-Important note: `la_central_del_norte` appears in `pubspec.yaml` as the Dart package name used by imports. Do not treat it as the product/app name unless the user explicitly confirms that.
+Important note: `billiard_time` (defined by the `name:` field in `pubspec.yaml`) is the Dart package name used by imports. Do not treat it as the product/app name unless the user explicitly confirms that.
 
 ## What The App Does
 
