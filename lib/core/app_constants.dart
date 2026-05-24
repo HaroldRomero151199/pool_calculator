@@ -4,8 +4,14 @@ class AppConstants {
   static const String darkModeLabel = "Modo oscuro";
   static const String resetTooltip = "Resetear campos";
   static const String developedByLabel = "Desarrollado por Sagrasoft";
-  static const String versionLabel = "Versión 1.0.1";
-  
+  static const String versionLabelPrefix = "Versión";
+
+  static String formatVersionLabel({
+    required String version,
+  }) {
+    return "$versionLabelPrefix $version";
+  }
+
   // Input Section Constants
   static const String priceLabel = "Precio por hora (Bs)";
   static const String startTimeLabel = "Hora de inicio";

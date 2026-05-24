@@ -8,11 +8,13 @@ import '../core/app_constants.dart';
 
 class BilliardCostScreen extends StatefulWidget {
   final bool isDarkMode;
+  final String appVersionLabel;
   final ValueChanged<bool> onThemeModeChanged;
 
   const BilliardCostScreen({
     super.key,
     required this.isDarkMode,
+    required this.appVersionLabel,
     required this.onThemeModeChanged,
   });
 
@@ -103,6 +105,7 @@ class _BilliardCostScreenState extends State<BilliardCostScreen> {
     return Scaffold(
       drawer: AppDrawer(
         isDarkMode: widget.isDarkMode,
+        appVersionLabel: widget.appVersionLabel,
         onThemeModeChanged: widget.onThemeModeChanged,
       ),
       appBar: AppBar(

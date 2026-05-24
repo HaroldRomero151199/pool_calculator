@@ -4,11 +4,13 @@ import '../core/app_constants.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isDarkMode;
+  final String appVersionLabel;
   final ValueChanged<bool> onThemeModeChanged;
 
   const AppDrawer({
     super.key,
     required this.isDarkMode,
+    required this.appVersionLabel,
     required this.onThemeModeChanged,
   });
 
@@ -26,7 +28,8 @@ class AppDrawer extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: [
                 DrawerHeader(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
                   decoration: BoxDecoration(
                     color: isDarkTheme
                         ? AppColors.darkCard
@@ -53,7 +56,8 @@ class AppDrawer extends StatelessWidget {
                               ? AppColors.darkText
                               : colorScheme.primary,
                           fontFamily: AppConstants.titleFontFamily,
-                          fontFamilyFallback: AppConstants.titleFontFamilyFallback,
+                          fontFamilyFallback:
+                              AppConstants.titleFontFamilyFallback,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           letterSpacing: AppConstants.titleLetterSpacing,
@@ -91,7 +95,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  AppConstants.versionLabel,
+                  appVersionLabel,
                   style: TextStyle(
                     fontSize: 11,
                     color: isDarkTheme
